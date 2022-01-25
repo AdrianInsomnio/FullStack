@@ -7,7 +7,7 @@ const Home = (props) => {
     const [ total, setTotal]= useState(0);
     const [list,setList]= useState([]);
 
-    const baseUrl ='http://localhost:5000/users';
+    const baseUrl ='http://localhost:5000/user';
     
 
     useEffect(() => {

@@ -15,16 +15,14 @@ require('dotenv').config();
 
 
 //routes
-app.get('/api/test', (req, res) => res.json({message:"api is ready"}));
-
-app.get('/', (req, res, next) => {
-    res.send('hello');
-  });
-
 app.use("/user",require('./routes/Op_Router'));
 app.use("/expenses",require('./routes/OperacionRouter'));
+app.use("/home",require('./routes/Home_Router'));
 
 
+app.get('/', (req, res, next) => {
+  res.send('hello');
+});
 
 
 //port

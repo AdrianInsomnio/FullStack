@@ -1,5 +1,4 @@
 const express = require('express')
-const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
@@ -8,7 +7,7 @@ const mysql = require('mysql2');
 const app = express();
 
 //middleares
-app.use(morgan('dev'));
+
 app.use(bodyParser.json());
 app.use(cors());
 require('dotenv').config();

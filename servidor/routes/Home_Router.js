@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
     });
     salida.Total = salida.Incomes-salida.Outcome;
 
-    res.json(salida);
+    res.status(200).json(salida);
     });
 
 });

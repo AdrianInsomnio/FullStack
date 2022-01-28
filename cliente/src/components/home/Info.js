@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Info = ( props) => {
-  return <div>info</div>;
+const Info = ( {mont}) => {
+  return <h2>Balance ${mont} </h2>;
 };
 
 export default Info;

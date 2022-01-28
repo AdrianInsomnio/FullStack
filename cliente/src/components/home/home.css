@@ -1,5 +1,15 @@
 .title{
     align-items: center;
-    justify-content: center;
+    justify-content: left;
     margin: center;
+}
+.contenedor-top{
+    height: 65vh;
+    width: 90vmax;
+    background-color: #242e42;
+    margin: auto;
+    display: flex;  
+    flex-wrap: wrap;
+    align-items: center ;
+    justify-content: center
 }

@@ -1,0 +1,23 @@
+.card-info{
+
+    width: 300px;
+    height: 130px;
+    box-shadow: 1px;
+    background-color: darkgrey;
+    margin: 5px;
+}
+.card-info.div{
+    flex-direction:row;
+}
+.btn-update{
+    color: white;  
+    padding: 6px;
+    border-radius: 25px;
+    background: #73AD21; 
+}
+.btn-delete{
+    color: white;
+    padding: 6px;
+    border-radius: 25px;
+    background: #db3807;
+}

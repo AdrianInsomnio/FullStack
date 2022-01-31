@@ -12,12 +12,10 @@
 .btn-update{
     color: white;  
     padding: 6px;
-    border-radius: 25px;
     background: #73AD21; 
 }
 .btn-delete{
     color: white;
     padding: 6px;
-    border-radius: 25px;
     background: #db3807;
 }

@@ -50,8 +50,10 @@ const Home = (props) => {
       <h3> Last 10 transacction </h3>
       <div className='contenedor-top' > 
         {
+          console.log(top10)}
+        {
           top10?.map( item =>
-            <Card key={item.idconcepto} item={item} />
+            <Card key={item.idoperacion} item={item} />
           )
         } 
       </div>

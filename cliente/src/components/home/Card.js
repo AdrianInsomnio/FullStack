@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
+import { stack} from 'bootstrap';
 import'./card.css';
 
 const Card = ({item}) => {
-    const { concepto, monto,idconcepto,fecha,tipo } = item;
+    const [datos ,setDatos]= useState(item)
+    const { concepto, monto,idoperacion,fecha,tipo } = datos;
     var isIncome = tipo === "I";
     const handleUpdate= () =>{
-      console.log(idconcepto);
-      alert(`Update ${idconcepto}`);
+      console.log(idoperacion);
+      alert(`Update ${idoperacion}`);
     };
     const handleErase=(e) =>{
-      alert("Erase ",idconcepto);
+      alert("Erase ",idoperacion);
     };
-  return <div className='card-info' key={idconcepto}>
+  return <div className='card-info' key={idoperacion}>
       <p>{concepto }</p>   
       <p>{ isIncome? `${monto} tipo : Income` : `${monto} tipo :  Outcome `  }</p>  
-      <div >
-        <button className='btn-update' > Update </button>
-        <button className='btn-delete' > Erase </button>
+      <div className='hstack m-3 ' gap={2} >
+        <button className= ' btn btn-primary btn-update mr-2'
+          onClick={handleUpdate}  
+          > Update 
+        </button>
+        <button className='btn btn-danger btn-delete'
+          onClick={handleErase} 
+          > Erase 
+        </button>
       </div>
   </div>;
 };

@@ -5,27 +5,30 @@ import { Link } from 'react-router-dom';
 const Views = () => {
   const [list ,setList]= useState([]);
   const [update ,setUpdate] =useState(false);
+  const [title,setTitle]=useState("All")
 
-  const baseUrl ='http://localhost:5000/expenses/all';
+  const baseUrl1 ='http://localhost:5000/expenses/all';
+  const baseUrl2 ='http://localhost:5000/expenses/getIncomes';
+  const baseUrl3 ='http://localhost:5000/expenses/getOutcomes';
 
-    const fetchdata = ()=>{ 
+    const fetchdata = (baseUrl)=>{ 
       axios({
         url: baseUrl,
       })
         .then((response) => {
           setList(response.data);
-          console.log(response.data);
+          //console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
         });
     };
 
-   const show_item_after_delete=()=>{
-    console.log('delete schedule data ')
+   const show_item_after_delete=(id)=>{
+    //console.log('delete schedule data ')
       setTimeout(()=>{
-        axios.get({url:baseUrl}).then(res=>res.data).
-        then( data =>{setList(data);
+        axios.get(baseUrl1).then(res=>res.data).
+        then( data =>{setList(data.filter(item => item.idoperacion !==id));
             console.log('delete schedule data ',data)
     
         })
@@ -36,25 +39,43 @@ const Views = () => {
 
   const eliminar =(id) =>{
     let text = "Are you sure delete this data? \nCan't be undone!";
-    console.log(id);
+    //console.log(id);
     axios.delete("http://localhost:5000/expenses/remove/"+id).
     then(response =>{ 
-      setList([]);
-      show_item_after_delete()
-      console.log(response)
+     
+      show_item_after_delete(id)
+      //console.log(response)
     }
       )
 
   }
 
   useEffect(() => {
-    fetchdata();
+    fetchdata(baseUrl1);
   }, []);
 
+  const all =()=>{
+    fetchdata(baseUrl1);
+    setTitle("All data")
+  }
+  const incomes=()=>{
+    fetchdata(baseUrl2)
+    setTitle("All incomes")
+  }
+  const outcome=()=>{
+    fetchdata(baseUrl3)
+    setTitle("All Outcomes")
+  }
 
   return <div className='container'>
+
     <div className='' >
-      <h1>All data</h1>
+      <div className='mx-4'> 
+        <button className='btn btn-secondary mx-2 mt-2 ' onClick={all}>All Data</button>
+        <button className='btn btn-secondary  mx-2 mt-2' onClick={incomes}>All Icomes</button>
+        <button className='btn btn-secondary  mx-2 mt-2' onClick={outcome}>All Outcomes</button>
+      </div>
+      <h1>{title}</h1>
       <table class="table table-hover">
         <thead>
           <tr>

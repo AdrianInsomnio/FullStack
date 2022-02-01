@@ -21,11 +21,26 @@ const Views = () => {
         });
     };
 
+   const show_item_after_delete=()=>{
+    console.log('delete schedule data ')
+      setTimeout(()=>{
+        axios.get({url:baseUrl}).then(res=>res.data).
+        then( data =>{setList(data);
+            console.log('delete schedule data ',data)
+    
+        })
+      },500)
+    }
+
+
+
   const eliminar =(id) =>{
     let text = "Are you sure delete this data? \nCan't be undone!";
     console.log(id);
     axios.delete("http://localhost:5000/expenses/remove/"+id).
-    then(response =>{ fetchdata();
+    then(response =>{ 
+      setList([]);
+      show_item_after_delete()
       console.log(response)
     }
       )
@@ -61,7 +76,7 @@ const Views = () => {
                     <td>{item.fecha}</td>
                     <td>{ item.tipo === "I" ? <p className='bg-success'> Incomes</p> : <p className='bg-danger'>Outcome </p> }</td>
                     <td><button className='btn btn-primary'><Link className=' text-white text-decoration-none ' to={`/update/${item.idoperacion}`} >Update</Link></button>
-                        <button className='btn btn-danger' onClick={eliminar(item.idoperacion)}>delete</button></td>
+                        <button className='btn btn-danger' onClick={()=> eliminar(item.idoperacion)}>delete</button></td>
                     <td/>
                 </tr>
             ))

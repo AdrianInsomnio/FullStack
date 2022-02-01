@@ -108,7 +108,7 @@ const connection = require('../db');
 
         
         let sql= "DELETE FROM expenses.operacion WHERE idoperacion = ?";
-        console.log(id);
+        console.log(req.params.id);
         connection.query(sql, req.params.id,function (err, result) {
             if (err) throw err;
             console.log("Number of records deleted: " + result.affectedRows);

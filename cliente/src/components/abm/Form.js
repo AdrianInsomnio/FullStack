@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 const Form = (props) => {
 
-  const {Titulo="Nuevo" } = props;
+  const {Titulo="New" } = props;
     /*
   const [detalle,setDetalle]=useState("");
   const[monto,setMonto]=useState("");
@@ -26,8 +26,7 @@ const onSubmit = (data,e) => {
     .then(response => alert("Data recive"))
     reset();
   }
-  return 
-  <div className='col-md-6'>
+  return <div className='col-md-6'>
     <h1>{Titulo}</h1>
     <form className='vstack d-grid gap-3 m-2' onSubmit={handleSubmit(onSubmit)} onReset={reset} >
       <label>Detail</label>

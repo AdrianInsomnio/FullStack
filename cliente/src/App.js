@@ -12,6 +12,7 @@ import Views from './components/abm/Views';
 import Form from './components/abm/Form';
 import 'bootstrap/dist/css/bootstrap.css';
 import Update from './components/abm/Update';
+import Header from './components/home/Header';
 
 function App() {
   return (
@@ -33,12 +34,20 @@ function App() {
 function Layout() {
   return (
     <div>
-      <h1>Welcome to the app!</h1>
-      <nav>
-        <Link to="Home">Home</Link> |{" "}
-        <Link to="view">View</Link> |{" "}
-        <Link to="form">+ New Transaction</Link>|{" "}
-        <Link to="update"> Update Transaction</Link>
+     
+      <nav className='navbar navbar-dark bg-dark '>
+       <di>
+         <a class="navbar-brand px-4">
+           <Link className='text-decoration-none text-white ' to="Home">
+             <Header  title="Expenses traker" />
+            </Link>
+          </a>
+       </di>   
+        <div >          
+          <a><Link className='text-decoration-none text-white px-4' to="view">View all</Link></a>
+          <a><Link className='text-decoration-none text-white px-4' to="form">+ New Transaction</Link></a>
+        </div>
+       
       </nav>
       <div className="content">
         <Outlet />

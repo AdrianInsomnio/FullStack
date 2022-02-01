@@ -125,7 +125,7 @@ const connection = require('../db');
                 res.sendStatus(500);
                 return;
             }
-            console.log(rows);
+            //console.log(rows);
             
             res.json(rows);
             });
@@ -141,7 +141,7 @@ const connection = require('../db');
                 res.sendStatus(500);
                 return;
             }
-            console.log(rows);
+            //console.log(rows);
             
             res.json(rows);
             });
@@ -160,7 +160,7 @@ const connection = require('../db');
             res.sendStatus(500);
             return;
           }
-          console.log(rows);
+          //console.log(rows);
           const operacion = rows.map(row => {
             return { id: row.idoperacion, concepto: row.concepto , monto : row.monto, fecha: row.fecha , tipo : row.tipo };
           });

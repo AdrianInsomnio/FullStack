@@ -13,13 +13,7 @@ const Update = (props) => {
   const[monto,setMonto]=useState("");
   const [optionsState,setOption]= useState("");
 */
-const { register, formState: { errors }, reset, setValue, handleSubmit } = useForm( {
-  defaultValues: {
-    concepto: '',
-    monto: '1',
-    tipo:'I'
-  }
-} );
+const { register, formState: { errors }, reset, setValue, handleSubmit } = useForm( );
 const [ operacion,setOperacion ]= useState({
   id:0,
   concepto:"",
@@ -59,7 +53,7 @@ const onSubmit = (data,e) => {
   }
   const isIncome = operacion?.tipo ==="I";
   const handleChange = e =>{ 
-    e.preventDefault();
+    
     setOperacion(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   } 
   return <div className='col-md-6'>

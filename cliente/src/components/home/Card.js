@@ -15,16 +15,18 @@ const Card = ({item}) => {
     const handleErase=(e) =>{
       alert("Erase ",idoperacion);
     };
-  return <div className='card-info' key={idoperacion}>
-      <p>{concepto }</p>   
-      <p>{ isIncome? `${monto} tipo : Income` : `${monto} tipo :  Outcome `  }</p>  
-      <div className='hstack m-3 ' gap={2} >
-        <button className= ' btn btn-primary btn-update mr-2'
+  return <div className='card mx-1 my-2 ' style={{ width : "16rem" }} key={idoperacion}>
+      <p className='card-title'>{concepto }</p>   
+      <p className='text-muted'>Amount $ {monto} </p> 
+      { isIncome? <div><p className='bg-success mx-2'>tipo : Income </p></div>  :
+                  <div><p className="bg-danger mx-2">tipo :  Outcome `</p> </div> }  
+      <div className='hstack m-3 ' >
+        <button className= ' text-white btn btn-primary'
           onClick={handleUpdate}  
           >
-            <Link to={`/update/${idoperacion}`} >Update</Link>
+            <Link className=' text-white text-decoration-none ' to={`/update/${idoperacion}`} >Update</Link>
         </button>
-        <button className='btn btn-danger btn-delete'
+        <button className='btn btn-danger text-white'
           onClick={handleErase} 
           > Erase 
         </button>

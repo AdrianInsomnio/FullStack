@@ -38,17 +38,13 @@ const Home = (props) => {
     const { Total, Incomes , Outcome , top10 } = data;
 
   return (
-    <div className="" style={ {textAlign:"center"}}>
-      <Header  title="Expenses traker" />
-      {
-        //console.log(data.top10)
-      }
-      <Info mont= { Total} />
-      
-      <p> Entradas ${Incomes} - Salidas ${Outcome}  </p>
+    <div className="container" style={ {textAlign:"center"}}>
+      <Info mont= { Total} />     
+      <p> Total  Incomes ${Incomes} - Total Outcomes ${Outcome}  </p>
       
       <h3> Last 10 transacction </h3>
-      <div className='contenedor-top' > 
+      <div className='container'>
+      <div className='row row-cols-5 ' > 
         {
           console.log(top10)}
         {
@@ -56,6 +52,7 @@ const Home = (props) => {
             <Card key={item.idoperacion} item={item} />
           )
         } 
+      </div>
       </div>
      
     </div>

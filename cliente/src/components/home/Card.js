@@ -8,12 +8,8 @@ const Card = ({item}) => {
     const { concepto, monto,idoperacion,fecha,tipo } = datos;
     var isIncome = tipo === "I";
     const handleUpdate= () =>{
-      console.log(idoperacion);
-      alert(`Update ${idoperacion}`);
-
     };
     const handleErase=(e) =>{
-      alert("Erase ",idoperacion);
     };
   return <div className='card mx-1 my-2 ' style={{ width : "16rem" }} key={idoperacion}>
       <p className='card-title'>{concepto }</p>   
@@ -24,11 +20,11 @@ const Card = ({item}) => {
         <button className= ' text-white btn btn-primary'
           onClick={handleUpdate}  
           >
-            <Link className=' text-white text-decoration-none ' to={`/update/${idoperacion}`} >Update</Link>
+            <Link className=' text-black text-decoration-none ' to={`/update/${item.idoperacion}`} >Update</Link>
         </button>
         <button className='btn btn-danger text-white'
           onClick={handleErase} 
-          > Erase 
+          > <Link className=' text-white text-decoration-none ' to={`/update/${item.idoperacion}`} >Remove</Link>
         </button>
       </div>
   </div>;

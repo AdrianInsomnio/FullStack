@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Views = () => {
   const [list ,setList]= useState([]);
@@ -20,10 +21,25 @@ const Views = () => {
     };
 
   function eliminar(id) {
-    alert("eliminar");
+    myFunction();
   }
   function actualizar(id){
-    alert("actualizar");
+    let text = "Are you sure update this data? \n";
+    if (window.confirm(text) == true) {
+      
+    } else {
+      text = "You canceled!";
+    }
+  }
+
+  function myFunction() {
+    let text = "Press a button!\nEither OK or Cancel.";
+    if (window.confirm(text) == true) {
+      alert("Delete press");
+
+    } else {
+      text = "You canceled!";
+    }
   }
 
   useEffect(() => {
@@ -54,7 +70,8 @@ const Views = () => {
                     <td>{item.monto}</td>
                     <td>{item.fecha}</td>
                     <td>{ item.tipo == "I" ? <p className='bg-success'> Incomes</p> : <p className='bg-danger'>Outcome </p> }</td>
-                    <td><button onClick={actualizar}>update</button><button onClick={eliminar}>delete</button></td>
+                    <td><button onClick={actualizar}><Link className=' text-white text-decoration-none ' to={`/update/${item.idoperacion}`} >Update</Link></button>
+                        <button onClick={eliminar}>delete</button></td>
                     <td/>
                 </tr>
             ))

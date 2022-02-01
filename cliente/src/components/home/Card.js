@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { stack} from 'bootstrap';
 import'./card.css';
+import { Link } from 'react-router-dom';
 
 const Card = ({item}) => {
     const [datos ,setDatos]= useState(item)
@@ -9,6 +10,7 @@ const Card = ({item}) => {
     const handleUpdate= () =>{
       console.log(idoperacion);
       alert(`Update ${idoperacion}`);
+
     };
     const handleErase=(e) =>{
       alert("Erase ",idoperacion);
@@ -19,7 +21,8 @@ const Card = ({item}) => {
       <div className='hstack m-3 ' gap={2} >
         <button className= ' btn btn-primary btn-update mr-2'
           onClick={handleUpdate}  
-          > Update 
+          >
+            <Link to={`/update/${idoperacion}`} >Update</Link>
         </button>
         <button className='btn btn-danger btn-delete'
           onClick={handleErase} 

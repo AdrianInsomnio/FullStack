@@ -20,16 +20,16 @@ const onSubmit = (data,e) => {
   //console.log(data);
   axios.post(urlPost,data)
     .then(response => alert("Data recive"))
-    
+    reset()
   }
-  return <div className='col-md-6'>
+  return <div className='col-md-6 position-absolute top-50 start-50 translate-middle'>
     <h1>{Titulo}</h1>
-    <form className='vstack d-grid gap-3 m-2' onSubmit={handleSubmit(onSubmit)} onReset={reset} >
+    <form className='vstack d-grid gap-3 mx-2' onSubmit={handleSubmit(onSubmit)} onReset={reset} >
       <label>Detail</label>
-      <input {...register("concepto", { required: true, maxLength: 50 })} />
+      <input className='mx-2' {...register("concepto", { required: true, maxLength: 50 })} />
         {errors.concepto?.type === 'required' && "Detail info is required"}
       <label >Amount</label>
-      <input type="number" {...register("monto", { required:true , min: 1})} />
+      <input className='mx-2' type="number" {...register("monto", { required:true , min: 1})} />
         {errors.monto?.type === 'required' && "Amount is required"}
       <label>Select Income or outcome</label>
       <select {...register("tipo")}>

@@ -1,4 +1,4 @@
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import { Alert } from 'bootstrap';
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
@@ -6,13 +6,8 @@ import { useForm } from "react-hook-form";
 const Form = (props) => {
 
   const {Titulo="New" } = props;
-    /*
-  const [detalle,setDetalle]=useState("");
-  const[monto,setMonto]=useState("");
-  const [optionsState,setOption]= useState("");
-*/
-const { register, formState: { errors }, reset, handleSubmit } = useForm( {
-  defaultValues: {
+  const { register, formState: { errors }, reset, handleSubmit } = useForm( {
+    defaultValues: {
     concepto: '',
     monto: '1',
     tipo:'I'
@@ -20,11 +15,12 @@ const { register, formState: { errors }, reset, handleSubmit } = useForm( {
 } );
 
 var urlPost= 'http://localhost:5000/expenses/create';
+
 const onSubmit = (data,e) => {
-  console.log(data);
-  const post =  axios.post(urlPost,data)
+  //console.log(data);
+  axios.post(urlPost,data)
     .then(response => alert("Data recive"))
-    reset();
+    
   }
   return <div className='col-md-6'>
     <h1>{Titulo}</h1>

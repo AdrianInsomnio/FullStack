@@ -106,15 +106,15 @@ const connection = require('../db');
     router.delete("/remove/:id",(req,res)=>{
         //const id = req.params;
 
+        
         let sql= "DELETE FROM expenses.operacion WHERE idoperacion = ?";
-        let query = connection.query(sql,req.params.id,(err,result)=>{
-        if (err) throw err;
-        res.send(JSON.stringify({
-            status: 200,
-            error : null, 
-            response : "nuevo registro ha sido agregado"}))
-        });
-        });
+        console.log(id);
+        connection.query(sql, req.params.id,function (err, result) {
+            if (err) throw err;
+            console.log("Number of records deleted: " + result.affectedRows);
+
+      
+        });})
 
     router.get(
         '/getIncomes',(req,res , next)=>{

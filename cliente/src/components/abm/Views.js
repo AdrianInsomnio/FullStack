@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Views = () => {
   const [list ,setList]= useState([]);
+  const [update ,setUpdate] =useState(false);
 
   const baseUrl ='http://localhost:5000/expenses/all';
 
@@ -20,32 +21,21 @@ const Views = () => {
         });
     };
 
-  function eliminar(id) {
-    myFunction();
-  }
-  function actualizar(id){
-    let text = "Are you sure update this data? \n";
-    if (window.confirm(text) == true) {
-      
-    } else {
-      text = "You canceled!";
+  const eliminar =(id) =>{
+    let text = "Are you sure delete this data? \nCan't be undone!";
+    console.log(id);
+    axios.delete("http://localhost:5000/expenses/remove/"+id).
+    then(response =>{ fetchdata();
+      console.log(response)
     }
-  }
+      )
 
-  function myFunction() {
-    let text = "Press a button!\nEither OK or Cancel.";
-    if (window.confirm(text) == true) {
-      alert("Delete press");
-
-    } else {
-      text = "You canceled!";
-    }
   }
 
   useEffect(() => {
     fetchdata();
   }, []);
-  
+
 
   return <div className='container'>
     <div className='' >
@@ -69,9 +59,9 @@ const Views = () => {
                     <td>{item.concepto}</td>
                     <td>{item.monto}</td>
                     <td>{item.fecha}</td>
-                    <td>{ item.tipo == "I" ? <p className='bg-success'> Incomes</p> : <p className='bg-danger'>Outcome </p> }</td>
-                    <td><button onClick={actualizar}><Link className=' text-white text-decoration-none ' to={`/update/${item.idoperacion}`} >Update</Link></button>
-                        <button onClick={eliminar}>delete</button></td>
+                    <td>{ item.tipo === "I" ? <p className='bg-success'> Incomes</p> : <p className='bg-danger'>Outcome </p> }</td>
+                    <td><button className='btn btn-primary'><Link className=' text-white text-decoration-none ' to={`/update/${item.idoperacion}`} >Update</Link></button>
+                        <button className='btn btn-danger' onClick={eliminar(item.idoperacion)}>delete</button></td>
                     <td/>
                 </tr>
             ))

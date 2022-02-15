@@ -1,0 +1,8 @@
+GET /api/operacions _ recupera todas las operaciones
+POST /api/create crea una nueva operacion 
+PUT /api/update/4 edita la operacion 4
+DELETE /api/del/4 borra la operacion 4
+
+get /api/home/10 - devuelve los datos estadisticos de usuario nro 10
+
+/api/users/login

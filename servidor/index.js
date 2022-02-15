@@ -2,23 +2,22 @@ const express = require('express')
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-
+const apiRouter = require('./routes/api');
 
 const app = express();
 
 //middleares
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
 require('dotenv').config();
+require('./db');
 
 
 //routes
-app.use("/user",require('./routes/Op_Router'));
-app.use("/expenses",require('./routes/OperacionRouter'));
-app.use("/home",require('./routes/Home_Router'));
 
-
+app.use('/api',apiRouter);
 app.get('/', (req, res, next) => {
   res.send('hello');
 });

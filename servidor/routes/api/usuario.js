@@ -1,7 +1,9 @@
 const router =  require('express').Router();
 const bcrypt =require('bcryptjs');
+const moment = require('moment');
+const jwt = require('jwt-simple');
 const { Usuario } = require('../../db');
-const {check,validationResult} = require('express-validator');
+const {check,validationResult, body} = require('express-validator');
 
 
 
@@ -39,6 +41,22 @@ router.post('/register',[
     res.json(user)
 });
 
+router.post('/login',async (req,res)=>{
+    const user= await Usuario.findOne({ where: { userName : req.body.userName }});
+    if (user){
+        const iguales = bcrypt.compareSync(req.body.password , user.password);
+        if (iguales){
+
+            res.json({success : crearToken(user)});
+        }else{
+            res.json({msg:"Erron in userName or password"});    
+        }
+    }else{
+        res.json({msg:"Erron in userName or password"});
+    }    
+})
+
+
 router.put('/update/:op_id',async (req,res)=>{
     await Usuario.update( req.body,{
         where: { id : req.params.op_id }
@@ -54,4 +72,13 @@ router.delete('/remove/:op_id', async (req,res)=>{
 });
 
 
+const crearToken = (user)=>{
+    const payload = {
+        id :user.id,
+        createdAt : moment().unix(),
+        expiredAt : moment().add(5 ,'days').unix()
+
+    }
+    return jwt.encode(payload,'FrazE SSecreta')
+}
 module.exports = router;

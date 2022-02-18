@@ -6,6 +6,11 @@ const apiRouter = require('./routes/api');
 
 const app = express();
 
+// Swagger
+const swaggerUI  = require("swagger-ui-express");
+const swaggerJsDoc  = require("swagger-jsdoc");
+const options   = require('./routes/api/swaggerOptions');
+
 //middleares
 
 app.use(bodyParser.json());
@@ -14,10 +19,14 @@ app.use(cors());
 require('dotenv').config();
 require('./db');
 
+const specs = swaggerJsDoc(options);
 
 //routes
 
 app.use('/api',apiRouter);
+
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(specs));
+
 app.get('/', (req, res, next) => {
   res.send('hello');
 });

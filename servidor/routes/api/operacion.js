@@ -5,6 +5,7 @@ const {check,validationResult} = require('express-validator');
 
 
 router.get('/',async (req,res)=>{
+    //console.log(req.id);
     const all =await Operacion.findAll();
     res.json(all);
 });
@@ -21,7 +22,15 @@ router.post('/create',[
         return res.status(422).json({errors : errors.array()})
     }
 
-    const oper = await Operacion.create(req.body);
+    const insert = {
+        concepto: req.body.concepto,
+        monto : req.body.monto,
+        tipo :req.body.tipo,
+        usuarioId : req.id
+    };
+
+    const oper = await Operacion.create(insert);
+    oper.usuarioId = req.id;
     res.json(oper)
 })
 
@@ -40,14 +49,14 @@ router.put('/update/:op_id',[
     await Operacion.update( req.body,{
         where: { id : req.params.op_id }
     })
-    res.send({ msg: "Registro modificado"})
+    res.send({ msg: "Updated"})
 });
 
 router.delete('/remove/:op_id', async (req,res)=>{
     await Operacion.destroy({
         where: { id: req.params.op_id}
     });
-    res.json({success : "se ha eliminado la operacion"})
+    res.json({success : "Transaction remove"})
 });
 
 

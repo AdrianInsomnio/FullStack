@@ -16,6 +16,8 @@ const checkToken = (req,res,next)=>{
         return res.json({error:"Token Date not valid"})
     }
 
+    req.id = payload.id;
+
     next();
 }
 

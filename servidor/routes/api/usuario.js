@@ -7,6 +7,7 @@ const {check,validationResult, body} = require('express-validator');
 
 
 
+
 router.get('/',async (req,res)=>{
     const all =await Usuario.findAll();
     res.json(all);

@@ -3,7 +3,29 @@ const { Operacion,Usuario } = require('../../db');
 const {check,validationResult} = require('express-validator');
 
 
-
+/**
+ * @swagger
+ * /tasks:
+ *  post:
+ *    summary: create a new task
+ *    tags: [Tasks]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Task'
+ *    responses:
+ *      200:
+ *        description: the tasks was successfully created
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Task'
+ *      500:
+ *        description: Some server error
+ *
+ */
 router.get('/',async (req,res)=>{
     //console.log(req.id);
     const all =await Operacion.findAll();

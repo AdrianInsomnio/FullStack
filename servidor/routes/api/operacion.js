@@ -3,36 +3,33 @@ const { Operacion,Usuario } = require('../../db');
 const {check,validationResult} = require('express-validator');
 
 
-/**
- * @swagger
- * /tasks:
- *  post:
- *    summary: create a new task
- *    tags: [Tasks]
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Task'
- *    responses:
- *      200:
- *        description: the tasks was successfully created
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/Task'
- *      500:
- *        description: Some server error
- *
- */
+
 router.get('/',async (req,res)=>{
     //console.log(req.id);
     const all =await Operacion.findAll();
     res.json(all);
 });
-
-router.post('/create',[
+/**
+ * @swagger
+ * /Create:
+ *  post:
+ *    summary: create a new Transaction
+ *    tags: [Transaction]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *    responses:
+ *      200:
+ *        description: the Transaction was successfully created
+ *        content:
+ *          application/json:
+ *      500:
+ *        description: Some server error
+ *
+ */
+router.post('/',[
     //`concepto`, `monto`, `tipo`, `usuarioId`
     check('concepto',"Description is require").exists().isLength({min:2}),
     check('monto','Value must be a number').exists().isNumeric({ min: 0}),
@@ -56,7 +53,7 @@ router.post('/create',[
     res.json(oper)
 })
 
-router.put('/update/:op_id',[
+router.put('/:op_id',[
     check('concepto',"Description is require").exists().isLength({min:2}),
     check('monto','Value must be a number').exists().isNumeric({ min: 0}),
     check('tipo','Value must be only INCOME or OUTCOME').isEmpty()
@@ -74,7 +71,7 @@ router.put('/update/:op_id',[
     res.send({ msg: "Updated"})
 });
 
-router.delete('/remove/:op_id', async (req,res)=>{
+router.delete('/:op_id', async (req,res)=>{
     await Operacion.destroy({
         where: { id: req.params.op_id}
     });

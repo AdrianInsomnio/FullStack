@@ -58,14 +58,14 @@ router.post('/login',async (req,res)=>{
 })
 
 
-router.put('/update/:op_id',async (req,res)=>{
+router.put('/:op_id',async (req,res)=>{
     await Usuario.update( req.body,{
         where: { id : req.params.op_id }
     })
     res.send({ msg: "Registro modificado"})
 });
 
-router.delete('/remove/:op_id', async (req,res)=>{
+router.delete('/:op_id', async (req,res)=>{
     await Usuario.destroy({
         where: { id: req.params.op_id}
     });

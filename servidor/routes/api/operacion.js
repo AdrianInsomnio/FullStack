@@ -9,9 +9,19 @@ router.get('/',async (req,res)=>{
     const all =await Operacion.findAll();
     res.json(all);
 });
+
+router.get('/:op_id',async (req,res)=>{
+    const obj = await Operacion.findOne( {where: { id : req.params.op_id}} );
+    if (obj){
+        return res.json(obj);
+    }else{
+        return res.json({message:"Transaction not found"});
+    }
+
+})
 /**
  * @swagger
- * /Create:
+ * /:
  *  post:
  *    summary: create a new Transaction
  *    tags: [Transaction]

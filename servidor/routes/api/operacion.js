@@ -84,7 +84,7 @@ router.get('/',async (req,res)=>{
 
 /**
  * @swagger
- * /api/expenses/transaction/{id}
+ * /api/expenses/transaction/{id}:
  *  get:
  *    summary: Return  transaction by Id 
  *    tags: [Transaction]
@@ -160,7 +160,7 @@ router.post('/transaction',[
 
 /**
  * @swagger
- * /api/expenses/{id}:
+ * /api/expenses/transaction/{id}:
  *  put:
  *    summary: Update a transaction by id
  *    tags: [Transaction]
@@ -187,7 +187,7 @@ router.post('/transaction',[
  *              $ref: '#/components/schemas/TransactionNotFound'
  *
  */
-router.put('/:op_id',[
+router.put('/transaction/:op_id',[
     check('concepto',"Description is require").exists().isLength({min:2}),
     check('monto','Value must be a number').exists().isNumeric({ min: 0}),
     check('tipo','Value must be only INCOME or OUTCOME').isEmpty()
@@ -209,7 +209,7 @@ router.put('/:op_id',[
 
 /**
  * @swagger
- * /api/expenses/{id}:
+ * /api/expenses/transaction/{id}:
  *  delete:
  *    summary: delete a transaction by id
  *    tags: [Transaction]
@@ -230,7 +230,7 @@ router.put('/:op_id',[
  *              $ref: '#/components/schemas/TransactionNotFound'
  *
  */
-router.delete('/:op_id', async (req,res)=>{
+router.delete('/transaction/:op_id', async (req,res)=>{
     await Operacion.destroy({
         where: { id: req.params.op_id}
     });

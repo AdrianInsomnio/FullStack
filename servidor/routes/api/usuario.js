@@ -13,16 +13,20 @@ router.get('/',async (req,res)=>{
     res.json(all);
 });
 
+
 router.post('/register',[
     check('nombre','Name  is require')
         .not()
         .isEmpty(),
-    check('userName','UserName is require ')
+    check('userName','Email is require ')
         .not()
         .isEmpty()
+        .isEmail()
+        .not()
         .custom(value => {
             return Usuario.findOne({ where: {username : value} })
-               .then(() => {
+               .then((res) => {
+                    console.log(res);
                   return Promise.reject('username already taken')
                })
          })
@@ -42,7 +46,24 @@ router.post('/register',[
     res.json(user)
 });
 
-router.post('/login',async (req,res)=>{
+router.post('/login',[
+    check('userName','Email is require ')
+        .not()
+        .isEmpty()
+        .isEmail()
+        .not()
+        .custom(value => {
+            return Usuario.findOne({ where: {username : value} })
+                .then((res) => {
+                    console.log(res);
+                    return Promise.reject('username already taken')
+                })
+            })
+        ,
+    check('password','Password is require')
+        .not()
+        .isEmpty()
+    ],async (req,res)=>{
     const user= await Usuario.findOne({ where: { userName : req.body.userName }});
     if (user){
         const iguales = bcrypt.compareSync(req.body.password , user.password);
@@ -57,22 +78,22 @@ router.post('/login',async (req,res)=>{
     }    
 })
 
-
-router.put('/:op_id',async (req,res)=>{
+/*
+router.put('/update/:op_id',async (req,res)=>{
     await Usuario.update( req.body,{
         where: { id : req.params.op_id }
     })
     res.send({ msg: "Registro modificado"})
 });
 
-router.delete('/:op_id', async (req,res)=>{
+router.delete('/remove/:op_id', async (req,res)=>{
     await Usuario.destroy({
         where: { id: req.params.op_id}
     });
     res.json({success : "se ha eliminado la operacion"})
 });
 
-
+*/
 const crearToken = (user)=>{
     const payload = {
         id :user.id,

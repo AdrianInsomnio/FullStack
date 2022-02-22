@@ -10,6 +10,9 @@ require('dotenv').config();
 // Swagger
 const swaggerUI  = require("swagger-ui-express");
 const swaggerJsDoc  = require("swagger-jsdoc");
+const swaggerDefinition ={
+
+}
 
 const options = {
     definition: {
@@ -23,9 +26,26 @@ const options = {
         {
           url: `http://localhost:${process.env.PORT}`,
         }
-      ]
+      ],
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+
+            type: "http",
+            scheme: "bearer",
+            in: "header",
+            bearerFormat: "JWT",
+          }
+        }
+      },
+      security: {
+        bearerAuth: [],
+      },
     },
-    apis: ["./routes/api/*.js"],
+    docExpansions: "none",
+          persistAuthorization: true,
+    
+    apis: ["./routes/api/*.js"]   
   };
 
 

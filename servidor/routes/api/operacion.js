@@ -1,6 +1,7 @@
 const router =  require('express').Router();
 const { Operacion,Usuario } = require('../../db');
 const {check,validationResult} = require('express-validator');
+const middleware = require('./middleware');
 
 /**
  * @swagger
@@ -25,9 +26,9 @@ const {check,validationResult} = require('express-validator');
  *          type: integer
  *          description: foreing key
  *      required:
- *        - concepto
- *        - monto
- *        - usuarioId
+ *         concepto
+ *         monto
+ *         usuarioId
  *      example:
  *        id: 5
  *        concepto: My first Income
@@ -41,15 +42,23 @@ const {check,validationResult} = require('express-validator');
  *          description: A message for the not found task
  *      example:
  *        msg: Transaction was not found
+
  *
  *  parameters:
- *    id:
+ *    Id:
  *      in: path
  *      name: id
  *      required: true
  *      schema:
- *        type: string
- *      description: the transaction id
+ *          type: string
+ *          description: the transaction id
+  *    IdOp:
+ *      in: path
+ *      name: id
+ *      required: true
+ *      schema:
+ *          type: int32
+ *          description: the transaction id
  */
 
 /**
@@ -74,6 +83,7 @@ const {check,validationResult} = require('express-validator');
  *              type: array
  *              items:
  *                $ref: '#/components/schemas/Transaction'
+
  */
 router.get('/',async (req,res)=>{
     //console.log(req.id);
@@ -88,6 +98,8 @@ router.get('/',async (req,res)=>{
  *  get:
  *    summary: Return  transaction by Id 
  *    tags: [Transaction]
+ *    parameters:
+ *      - $ref: '#/components/parameters/Id'
  *    responses:
  *      200:
  *        description: transaction
@@ -113,6 +125,8 @@ router.get('/transaction/:op_id',async (req,res)=>{
  * /api/expenses/transaction:
  *  post:
  *    summary: create a new  transaction
+ *    security:
+ *       - bearerAuth: [ ]
  *    tags: [Transaction]
  *    requestBody:
  *      required: true
@@ -131,7 +145,7 @@ router.get('/transaction/:op_id',async (req,res)=>{
  *        description: Some server error
  *
  */
-router.post('/transaction',[
+router.post('/transaction',middleware.checkToken ,[
     //`concepto`, `monto`, `tipo`, `usuarioId`
     check('concepto',"Description is require").exists().isLength({min:2}),
     check('monto','Value must be a number').exists().isNumeric({ min: 0}),
@@ -163,6 +177,8 @@ router.post('/transaction',[
  * /api/expenses/transaction/{id}:
  *  put:
  *    summary: Update a transaction by id
+ *    security:
+ *       - bearerAuth: [ ]
  *    tags: [Transaction]
  *    parameters:
  *      - $ref: '#/components/parameters/Id'
@@ -212,6 +228,8 @@ router.put('/transaction/:op_id',[
  * /api/expenses/transaction/{id}:
  *  delete:
  *    summary: delete a transaction by id
+ *    security:
+ *       - bearerAuth: [ ]
  *    tags: [Transaction]
  *    parameters:
  *      - $ref: '#/components/parameters/Id'
@@ -230,7 +248,7 @@ router.put('/transaction/:op_id',[
  *              $ref: '#/components/schemas/TransactionNotFound'
  *
  */
-router.delete('/transaction/:op_id', async (req,res)=>{
+router.delete('/transaction/:op_id',middleware.checkToken , async (req,res)=>{
     await Operacion.destroy({
         where: { id: req.params.op_id}
     });

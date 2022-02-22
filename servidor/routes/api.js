@@ -5,7 +5,7 @@ const apiUsuarioRouter = require('./api/usuario');
 const middleware = require('./api/middleware');
 
 router.use('/users',apiUsuarioRouter);
-router.use('/expenses',middleware.checkToken ,apiOperacionRouter);
+router.use('/expenses',apiOperacionRouter);
 
 
 module.exports = router;

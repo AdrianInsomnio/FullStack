@@ -1,6 +1,7 @@
 GET /api/expenses/ _ recupera todas las operaciones
-POST /api/expenses/create crea una nueva operacion 
-PUT /api/expenses/update/4 edita la operacion 4
+GET /api/expenses/4 _ recupera todas las operaciones con userId 4
+POST /api/expenses/ crea una nueva operacion 
+PUT /api/expenses/4 edita la operacion 4
 DELETE /api/expenses/remove/4 borra la operacion 4
 
 get /api/home/10 - devuelve los datos estadisticos de usuario nro 10

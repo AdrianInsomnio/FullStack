@@ -11,9 +11,9 @@ const Home = (props) => {
     const [list,setList]= useState([]);
     const actualizar= true;
 
-    const baseUrl ='http://localhost:5000/expenses/all';
+    const baseUrl ='http://localhost:5000/api/expenses/';
     
-    const homeUrl ='http://localhost:5000/home';
+    const homeUrl ='http://localhost:5000/api/home';
 
     const [data ,setData]  =useState({}); 
     
@@ -46,7 +46,8 @@ const Home = (props) => {
       <div className='container'>
       <div className='row row-cols-5 ' > 
         {
-          console.log(top10)}
+          //console.log(top10)
+        }
         {
           top10?.map( item =>
             <Card key={item.idoperacion} item={item} />

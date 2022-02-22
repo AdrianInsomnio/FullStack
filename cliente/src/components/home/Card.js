@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const Card = ({item}) => {
     const [datos ,setDatos]= useState(item)
     const { concepto, monto,idoperacion,fecha,tipo } = datos;
-    var isIncome = tipo === "I";
+    var isIncome = tipo === "INCOME";
     const handleUpdate= () =>{
     };
     const handleErase=(e) =>{

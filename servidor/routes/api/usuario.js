@@ -18,7 +18,7 @@ const {check,validationResult, body} = require('express-validator');
  *          type: integer
  *          description: the auto-generated id of user
  *        nombre:
- *              type:integer
+ *              type: integer
  *              description: user nanme
  *        userName:
  *          type: string
@@ -30,7 +30,7 @@ const {check,validationResult, body} = require('express-validator');
  *        - userName
  *        - password
  *      example:
- *        nombre:Prueba
+ *        nombre: Prueba
  *        userName: INosmnio@gmail.com
  *        password: 123456xXd
  *    UserNotFound:

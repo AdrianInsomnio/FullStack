@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { Alert } from 'bootstrap';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
+import authService from '../../services/auth.service';
 
 const Form = (props) => {
 
@@ -10,19 +11,45 @@ const Form = (props) => {
     defaultValues: {
     concepto: '',
     monto: '1',
-    tipo:'I'
+    tipo:'INCOME'
   }
 } );
 
-var urlPost= 'http://localhost:5000/expenses/create';
+const [currentUser,setCurrentUser] =useState(undefined);
+
+
+useEffect(()=>{ 
+  const user = authService.getCurrentUser();
+  if (user){
+    console.log(user);
+    setCurrentUser(user);
+  }
+}
+,[]  );
+
+function authHeader() {
+  // return authorization header with basic auth credentials
+  let user = JSON.parse(currentUser);
+
+  if (user && user.token) {
+      return { Authorization: `Bearer ${user.token}` };
+  } else {
+      return {};
+  }
+}
+
+
+var urlPost= 'http://localhost:5000/api/expenses/transaction';
 
 const onSubmit = (data,e) => {
   //console.log(data);
-  axios.post(urlPost,data)
+  data.usuarioId = currentUser.id;
+
+  axios.post(urlPost,data, {headers: authHeader()})
     .then(response => alert("Data recive"))
     reset()
   }
-  return <div className='col-md-6 position-absolute top-50 start-50 translate-middle'>
+  return <div className='container'>
     <h1>{Titulo}</h1>
     <form className='vstack d-grid gap-3 mx-2' onSubmit={handleSubmit(onSubmit)} onReset={reset} >
       <label>Detail</label>
@@ -33,8 +60,8 @@ const onSubmit = (data,e) => {
         {errors.monto?.type === 'required' && "Amount is required"}
       <label>Select Income or outcome</label>
       <select {...register("tipo")}>
-        <option value ="I">Income</option>
-        <option value ="O">Outcome</option>
+        <option value ="INCOME">Income</option>
+        <option value ="OUTCOME">Outcome</option>
       </select>
       {errors.tipo?.type === 'required' && "Select income is required"}
       <input type="submit"/>

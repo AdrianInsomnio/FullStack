@@ -3,7 +3,7 @@ const router = express.Router();
 const { Operacion,Usuario } = require('../../db');
     
 router.get('/',async (req, res, next) => {
-    const all =await Operacion.findAll( 
+    const top =await Operacion.findAll( 
         {
             limit: 10,
             where: {
@@ -12,9 +12,10 @@ router.get('/',async (req, res, next) => {
             order: [ [ 'createdAt', 'DESC' ]]
           }
     );
+    const all =await Operacion.findAll();
   //  res.json(all);
 
-    const salida= { Total : 0,Incomes :0 , Outcome : 0 , top10: all };
+    const salida= { Total : 0,Incomes :0 , Outcome : 0 , top10: top };
     
     all?.map( row=>{ 
         //console.log(row);

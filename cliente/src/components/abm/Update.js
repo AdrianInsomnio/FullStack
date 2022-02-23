@@ -56,7 +56,7 @@ const onSubmit = (data,e) => {
     
     setOperacion(prevState => ({ ...prevState, [e.target.name]: e.target.value }));
   } 
-  return <div className='col-md-6'>
+  return <div className='container'>
     <h1>{Titulo}</h1>
     <form className='vstack d-grid gap-3 m-2' onSubmit={handleSubmit(onSubmit)} onReset={reset} >
       <label>Detail</label>
@@ -65,7 +65,7 @@ const onSubmit = (data,e) => {
       <label >Amount</label>
       <input type="number" value={operacion.monto} onChange={handleChange} />
         {errors.monto?.type === 'required' && "Amount is required"}
-      <label>{ isIncome? "Income": "Outcome" }</label>
+      <label>{ isIncome? "INCOME": "OUTCOME" }</label>
       <input type="submit"/>
     </form></div>;
 };

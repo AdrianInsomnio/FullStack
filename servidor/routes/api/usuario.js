@@ -137,7 +137,7 @@ router.post('/register',[
 
     req.body.password = bcrypt.hashSync(req.body.password,10);
     const user = await Usuario.create(req.body);
-    res.json(user)
+    res.json({ success : crearToken(user),user: user  , AuthStatus:true})
 });
 
 
@@ -146,7 +146,7 @@ router.post('/register',[
  * @swagger
  * /api/users/login:
  *  post:
- *    summary: create a new  User
+ *    summary: User login
  *    tags: [User]
  *    requestBody:
  *      required: true
@@ -188,12 +188,12 @@ router.post('/login',[
         const iguales = bcrypt.compareSync(req.body.password , user.password);
         if (iguales){
 
-            res.json({success : crearToken(user)});
+            res.json({success : crearToken(user),user: user ,AuthStatus:true});
         }else{
-            res.json({msg:"Erron in userName or password"});    
+            res.json({msg:"Erron in userName or password",AuthStatus:false});    
         }
     }else{
-        res.json({msg:"Erron in userName or password"});
+        res.json({msg:"Erron in userName or password",AuthStatus:false});
     }    
 })
 
@@ -215,7 +215,7 @@ router.delete('/remove/:op_id', async (req,res)=>{
 */
 const crearToken = (user)=>{
     const payload = {
-        id :user.id,
+        id :user,
         createdAt : moment().unix(),
         expiredAt : moment().add(5 ,'days').unix()
 

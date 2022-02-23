@@ -14,8 +14,8 @@ const Card = ({item}) => {
   return <div className='card mx-1 my-2 ' style={{ width : "16rem" }} key={idoperacion}>
       <p className='card-title'>{concepto }</p>   
       <p className='text-muted'>Amount $ {monto} </p> 
-      { isIncome? <div><p className='bg-success mx-2'>tipo : Income </p></div>  :
-                  <div><p className="bg-danger mx-2">tipo :  Outcome `</p> </div> }  
+      { isIncome? <div><p className='bg-success mx-2'>tipo : Income</p></div>  :
+                  <div><p className="bg-danger mx-2">tipo :  Outcome</p> </div> }  
       <div className='hstack m-3 ' >
         <button className= ' text-white btn btn-primary'
           onClick={handleUpdate}  

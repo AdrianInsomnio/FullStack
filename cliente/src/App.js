@@ -16,7 +16,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Update from './components/abm/Update';
 import Header from './components/home/Header';
 import { useEffect, useState } from 'react';
-import AuthService from "./services/auth.service";
+//import AuthService from "./services/auth.service";
 
 function App() {
   return (
@@ -43,15 +43,23 @@ function Layout() {
 
 
   useEffect(()=>{ 
-    const user = AuthService.getCurrentUser();
-    if (user){
-      setCurrentUser(user);
-    }
+      const token = document.cookie.replace('token=','');
+      const API_URL = "http://localhost:5000/api/expenses/prueba";
+      fetch(API_URL,
+        {
+          method :'POST',
+          headers:{
+            'authorization': token
+          }
+        }).then( (res)=> res.json()).then(data=>{
+          //console.log(data)
+          setCurrentUser(data.user)
+        })
   }
   ,[]  );
 
   const logOut=()=> {
-    AuthService.logout();
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   }
 
   return (

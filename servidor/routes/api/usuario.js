@@ -1,7 +1,6 @@
 const router =  require('express').Router();
 const bcrypt =require('bcryptjs');
-const moment = require('moment');
-const jwt = require('jwt-simple');
+const jwt = require('jsonwebtoken');
 const { Usuario } = require('../../db');
 const {check,validationResult, body} = require('express-validator');
 
@@ -116,12 +115,15 @@ router.post('/register',[
         .not()
         .isEmpty()
         .isEmail()
-        .not()
         .custom(value => {
-            return Usuario.findOne({ where: {username : value} })
+            return Usuario.findOne({ where: {userName : value} })
                .then((res) => {
-                    console.log(res);
-                  return Promise.reject('username already taken')
+                if (res) {
+                    //console.log(res);
+                    return Promise.reject('E-mail already in use');
+                  }
+                    
+                  //return Promise.reject('username already taken')
                })
          })
         ,
@@ -137,7 +139,8 @@ router.post('/register',[
 
     req.body.password = bcrypt.hashSync(req.body.password,10);
     const user = await Usuario.create(req.body);
-    res.json({ success : crearToken(user),user: user  , AuthStatus:true})
+
+    res.json({ msg : "Success", user})
 });
 
 
@@ -170,13 +173,13 @@ router.post('/login',[
         .not()
         .isEmpty()
         .isEmail()
-        .not()
         .custom(value => {
-            return Usuario.findOne({ where: {username : value} })
-                .then((res) => {
-                    console.log(res);
-                    return Promise.reject('username already taken')
-                })
+            return Usuario.findOne({ where: {userName : value} })
+            .then((res) => {
+             if (!res) {
+                 return Promise.reject('E-mail not exist');
+               }
+            })
             })
         ,
     check('password','Password is require')
@@ -187,39 +190,16 @@ router.post('/login',[
     if (user){
         const iguales = bcrypt.compareSync(req.body.password , user.password);
         if (iguales){
-
-            res.json({success : crearToken(user),user: user ,AuthStatus:true});
+            //console.log(user);
+            const token = jwt.sign(user.toJSON(),'FrazzE Sectreta',{ expiresIn: '3m' });
+            
+            res.status(200).json({token});
         }else{
-            res.json({msg:"Erron in userName or password",AuthStatus:false});    
+            res.status(401).json({msg:"Erron in password", AuthStatus:false});    
         }
     }else{
-        res.json({msg:"Erron in userName or password",AuthStatus:false});
+        res.status(403).json({msg:"Erron in userName",AuthStatus:false});
     }    
 })
 
-/*
-router.put('/update/:op_id',async (req,res)=>{
-    await Usuario.update( req.body,{
-        where: { id : req.params.op_id }
-    })
-    res.send({ msg: "Registro modificado"})
-});
-
-router.delete('/remove/:op_id', async (req,res)=>{
-    await Usuario.destroy({
-        where: { id: req.params.op_id}
-    });
-    res.json({success : "se ha eliminado la operacion"})
-});
-
-*/
-const crearToken = (user)=>{
-    const payload = {
-        id :user.id,
-        createdAt : moment().unix(),
-        expiredAt : moment().add(5 ,'days').unix()
-
-    }
-    return jwt.encode(payload,'FrazE SSecreta')
-}
 module.exports = router;

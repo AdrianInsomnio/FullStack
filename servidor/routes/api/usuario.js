@@ -215,7 +215,7 @@ router.delete('/remove/:op_id', async (req,res)=>{
 */
 const crearToken = (user)=>{
     const payload = {
-        id :user,
+        id :user.id,
         createdAt : moment().unix(),
         expiredAt : moment().add(5 ,'days').unix()
 

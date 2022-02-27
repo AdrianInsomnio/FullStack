@@ -191,7 +191,7 @@ router.post('/login',[
         const iguales = bcrypt.compareSync(req.body.password , user.password);
         if (iguales){
             //console.log(user);
-            const token = jwt.sign(user.toJSON(),'FrazzE Sectreta',{ expiresIn: '3m' });
+            const token = jwt.sign(user.toJSON(),'FrazzE Sectreta',{ expiresIn: '5d' });
             
             res.status(200).json({token});
         }else{

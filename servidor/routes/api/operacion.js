@@ -2,6 +2,7 @@ const router =  require('express').Router();
 const { Operacion,Usuario } = require('../../db');
 const {check,validationResult} = require('express-validator');
 const middleware = require('./middleware');
+const jwt = require('jsonwebtoken');
 
 /**
  * @swagger
@@ -145,31 +146,46 @@ router.get('/transaction/:op_id',async (req,res)=>{
  *        description: Some server error
  *
  */
-router.post('/transaction',middleware.checkToken ,[
-    //`concepto`, `monto`, `tipo`, `usuarioId`
-    check('concepto',"Description is require").exists().isLength({min:2}),
-    check('monto','Value must be a number').exists().isNumeric({ min: 0}),
-    check('tipo','Value must be only INCOME or OUTCOME').isIn(['INCOME', 'OUTCOME'])
-
-],async (req,res)=>{
+router.post('/transaction',async (req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()){
         return res.status(422).json({errors : errors.array()})
     }
+    const data = req.body;
+    //console.log("data",data);
+    const token  = req.headers['authorization'];
+    
+    jwt.verify( token , 'FrazzE Sectreta' , (err, user)=>{
+        if (err){
+            res.status(403).json({msg:'Not authorized'});
+        }else{
+            
+            const insert = {
+                concepto: data.concepto,
+                monto : data.monto,
+                tipo : data.tipo,
+                usuarioId : user.id };
+                console.log("insert",insert);
+            const oper = Operacion.create(insert);
+            //oper.usuarioId = user.id;
 
-    const insert = {
-        concepto: req.body.concepto,
-        monto : req.body.monto,
-        tipo :req.body.tipo,
-        usuarioId : req.id
-    };
+            res.status(200).json({msg:'success', oper})
 
-    const oper = await Operacion.create(insert);
-    oper.usuarioId = req.id;
-    res.json(oper)
+            
+        }
+    });
 })
 
-
+router.post('/prueba',(req,res)=>{
+    const token  = req.headers['authorization'];
+    jwt.verify( token , 'FrazzE Sectreta' , (err, user)=>{
+        if (err){
+            res.status(403).json({msg:'Not authorized'});
+        }else{
+            res.status(200).json({msg:'success',user})
+        }
+    });
+})
 
 
 /**
@@ -203,20 +219,24 @@ router.post('/transaction',middleware.checkToken ,[
  *              $ref: '#/components/schemas/TransactionNotFound'
  *
  */
-router.put('/transaction/:op_id',[
+router.put('/transaction/',[
+    check('id','Transaction Id is require'),
+    check('usuarioId','usuario Id is require'),
     check('concepto',"Description is require").exists().isLength({min:2}),
-    check('monto','Value must be a number').exists().isNumeric({ min: 0}),
-    check('tipo','Value must be only INCOME or OUTCOME').isEmpty()
-
+    check('monto','Value must be a number').exists().isNumeric({ min: 0})
 ],async (req,res)=>{
 
     const errors = validationResult(req);
     if (!errors.isEmpty()){
         return res.status(422).json({errors : errors.array()})
     }
+    const data = {
+        concepto : req.body.concepto,
+        monto : req.body.monto
+    };
 
-    await Operacion.update( req.body,{
-        where: { id : req.params.op_id }
+    await Operacion.update( data,{
+        where: { id : req.body.id }
     })
     res.send({ msg: "Updated"})
 });
@@ -248,12 +268,34 @@ router.put('/transaction/:op_id',[
  *              $ref: '#/components/schemas/TransactionNotFound'
  *
  */
-router.delete('/transaction/:op_id',middleware.checkToken , async (req,res)=>{
-    await Operacion.destroy({
-        where: { id: req.params.op_id}
+router.delete('/transaction', (req,res)=>{
+
+    const token  = req.headers['authorization'];
+    jwt.verify( token , 'FrazzE Sectreta' , (err, user)=>{
+        if (err){
+            res.status(403).json({msg:'Not authorized'});
+        }else{
+             Operacion.destroy({
+                where: { id: req.body.id}
+            });
+            res.status(200).json({msg:'success'})
+        }
     });
-    res.json({success : "Transaction remove"})
 });
 
+router.get('/getIncomes',async (req,res)=>{
+
+    const all = await Operacion.findAll( {
+        where : { tipo : 'INCOME' }
+    });
+    res.json(all);
+})
+router.get('/getOutcomes',async (req,res)=>{
+
+    const all = await Operacion.findAll( {
+        where : { tipo : 'OUTCOME' }
+    });
+    res.json(all);
+})
 
 module.exports = router;

@@ -20,7 +20,7 @@ const Views = () => {
   };
   const handleShow = () =>{
     // me fijo si tiene permiso
-    if (currentUser!==undefined){
+    if (  typeof currentUser !=='undefined'){
       setShow(true);
     }else{
       Swal.fire({
@@ -37,7 +37,7 @@ const Views = () => {
   };
   const handleshowUpdate = () => {
     
-    if (currentUser!==undefined){
+    if (typeof currentUser !=='undefined'){
       setShowUpdate(true)
     }else{
       Swal.fire({
@@ -95,7 +95,7 @@ const Views = () => {
     const handleErase= (data ,e) =>{
       const idErase = data.id;
 
-      if (currentUser!==undefined){       
+      if (typeof currentUser !=='undefined'){       
       
       Swal.fire({
         title: ` Do you want to remove \n"${data.concepto}" \n and save the changes?`,

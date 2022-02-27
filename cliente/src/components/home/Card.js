@@ -1,32 +1,15 @@
 import React, { useState } from 'react';
-import { stack} from 'bootstrap';
 import'./card.css';
-import { Link } from 'react-router-dom';
 
-const Card = ({item}) => {
-    const [datos ,setDatos]= useState(item)
-    const { concepto, monto,idoperacion,fecha,tipo } = datos;
-    var isIncome = tipo === "I";
-    const handleUpdate= () =>{
-    };
-    const handleErase=(e) =>{
-    };
-  return <div className='card mx-1 my-2 ' style={{ width : "16rem" }} key={idoperacion}>
+const Card = ({item }) => {
+    const [datos]= useState(item)
+    const { concepto, monto,tipo } = datos;
+    var isIncome = tipo === "INCOME";
+  return <div className='card mx-1 my-2 bg-light' style={{ width : "16rem" }} >
       <p className='card-title'>{concepto }</p>   
       <p className='text-muted'>Amount $ {monto} </p> 
-      { isIncome? <div><p className='bg-success mx-2'>tipo : Income </p></div>  :
-                  <div><p className="bg-danger mx-2">tipo :  Outcome `</p> </div> }  
-      <div className='hstack m-3 ' >
-        <button className= ' text-white btn btn-primary'
-          onClick={handleUpdate}  
-          >
-            <Link className=' text-black text-decoration-none ' to={`/update/${item.idoperacion}`} >Update</Link>
-        </button>
-        <button className='btn btn-danger text-white'
-          onClick={handleErase} 
-          > <Link className=' text-white text-decoration-none ' to={`/update/${item.idoperacion}`} >Remove</Link>
-        </button>
-      </div>
+      { isIncome? <div><p className='bg-success mx-2 text-white m-2 rounded'>Income</p></div>  :
+                  <div><p className="bg-danger mx-2 text-white m-2 rounded">Outcome</p> </div> }
   </div>;
 };
 

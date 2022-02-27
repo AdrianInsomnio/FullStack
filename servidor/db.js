@@ -1,14 +1,37 @@
+const Sequelize = require('sequelize');
+
 const mysql = require('mysql2');
+
 require('dotenv').config();
-
-// db connection
 const env = process.env;
-const connection = mysql.createConnection({
+
+const OperacionModel = require('./models/operaciones');
+const UsuarioModel = require('./models/usuario');
+
+
+const sequelize = new Sequelize(env.DB_NAME,env.DB_USER,env.DB_PASSWORD,{ 
   host: env.DB_HOST,
-  user: env.DB_USER,
-  password: env.DB_PASSWORD,
-  database: env.DB_NAME
-});
+  dialect :'mysql'});
+
+const Operacion = OperacionModel(sequelize,Sequelize);
+const Usuario = UsuarioModel(sequelize,Sequelize);
+
+//ASOCIACIONES
 
 
-module.exports = connection;
+//Usuario
+Usuario.hasMany(Operacion);
+
+//Operacion
+Operacion.belongsTo(Usuario);
+sequelize.sync({force: false})
+  .then(
+    ()=>{
+      console.log('tablas sync');
+    }
+  )
+
+  module.exports = {
+    Operacion,
+    Usuario
+  }

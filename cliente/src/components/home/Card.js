@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import'./card.css';
 
 const Card = ({item }) => {
-    const [datos ,setDatos]= useState(item)
+    const [datos]= useState(item)
     const { concepto, monto,tipo } = datos;
     var isIncome = tipo === "INCOME";
   return <div className='card mx-1 my-2 bg-light' style={{ width : "16rem" }} >

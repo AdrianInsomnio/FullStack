@@ -76,7 +76,7 @@ function Layout() {
        <div className='d-flex'>
           <GiPayMoney color="#fff" size={27} className='mx-4' />
           <Link className='text-decoration-none text-white ' to="Home">
-             <Header  title="Expenses traker" />
+             <Header  title="Expenses" />
           </Link>
        </div>   
         <div className="gpt3__navbar-links">

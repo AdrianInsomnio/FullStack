@@ -4,6 +4,8 @@ import { Button, Modal } from 'react-bootstrap';
 import Form from './Form';
 import Update from './Update';
 import Swal from 'sweetalert2';
+import {AiOutlineEdit,AiOutlineDelete} from 'react-icons/ai'
+
 
 const Views = () => {
   const [list ,setList]= useState([]);
@@ -189,11 +191,11 @@ const Views = () => {
                     <td className='align-middle'>{item.concepto}</td>
                     <td className='align-middle'>{item.monto}</td>
                     <td className='align-middle'>{item.fecha}</td>
-                    <td className='align-middle '>{ item.tipo === "INCOME" ? <p className='bg-success text-white mx-2 text-center'> Incomes</p> : <p className='bg-secondary text-white mx-2 text-center'>Outcome </p> }</td>
+                    <td className='align-middle '>{ item.tipo === "INCOME" ? <p className='bg-success mx-2 text-white m-2 rounded text-center '> Incomes</p> : <p className='bg-secondary mx-2 text-white m-2 rounded text-center'>Outcome </p> }</td>
                     <td className='align-middle'>
                       <div className='hstack m-3 ' >
-                        <button className= ' text-white btn btn-primary'  onClick={ ()=> handleUpdate(item)}> Update </button>
-                        <button className='btn btn-danger text-white' onClick={ ()=> handleErase(item)}> Remove</button>
+                        <button className= ' text-white btn btn-primary'  onClick={ ()=> handleUpdate(item)}> <AiOutlineEdit color="#fff" size={27} className='mx-2'/> Update </button>
+                        <button className='btn btn-danger text-white m-2' onClick={ ()=> handleErase(item)}> <AiOutlineDelete color="#fff" size={27} className='mx-2'/> Remove</button>
                       </div>
                     </td>
                     <td/>
